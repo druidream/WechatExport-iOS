@@ -1,3 +1,11 @@
+
+Trying to make the project Mac-compatible.
+Using Xamarin Studio.
+There're still charset issue to be fixed.
+
+
+// original readme
+
 # WechatExport-iOS
 Save iOS WeChat history as HTML or TXT with neat layout and picture &amp; audio support.
 
@@ -6,5 +14,3 @@ The only open-source one-click application that parses the local database of Wec
 ---
 
 将iOS上微信的聊天记录导出为包括图片和语音的HTML，或纯文本。
-
-# iOS 10更改了iTunes备份文件的存储方式，希望在这星期能解决这个问题。

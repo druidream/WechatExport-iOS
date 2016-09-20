@@ -51,9 +51,9 @@ namespace WechatExport
             }
             catch (Exception)
             {
-                MessageBox.Show("没有找到iTunes备份文件夹，可能需要手动选择。");
+                MessageBox.Show("No iTunes backup found, you need to select it manually.");
             }
-            comboBox1.Items.Add("<选择其他备份文件夹...>");
+            comboBox1.Items.Add("<select other folder>");
         }
 
         private iPhoneBackup LoadManifest(string path)
@@ -87,11 +87,11 @@ namespace WechatExport
             }
             catch (InvalidOperationException ex)
             {
-                MessageBox.Show(ex.InnerException.ToString());
+                MessageBox.Show("aaa:"+ex.InnerException.ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("bbb:"+ex.ToString());
             }
             return backup;
         }
@@ -117,11 +117,11 @@ namespace WechatExport
             }
             catch (InvalidOperationException ex)
             {
-                MessageBox.Show(ex.InnerException.ToString());
+                MessageBox.Show("ccc:"+ex.InnerException.ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+                MessageBox.Show("ddd:"+ex.Message + "\n" + ex.StackTrace);
             }
         }
 
@@ -179,7 +179,7 @@ namespace WechatExport
             if (app.Key == "com.tencent.xin")
             {
                 weixinapp = app;
-                label2.Text = "正确";
+                label2.Text = "correct";
                 label2.ForeColor = Color.Green;
                 button2.Enabled = true;
             }
@@ -190,7 +190,7 @@ namespace WechatExport
             comboBox1.SelectedIndex = -1;
             weixinapp = null;
             currentBackup = null;
-            label2.Text = "未选择";
+            label2.Text = "not selected";
             label2.ForeColor = Color.Black;
             button2.Enabled = false;
         }
@@ -221,7 +221,7 @@ namespace WechatExport
                     loadCurrentBackup();
                     if (weixinapp == null)
                     {
-                        label2.Text = "未找到";
+                        label2.Text = "not found";
                         label2.ForeColor = Color.Red;
                     }
                 }
@@ -274,7 +274,7 @@ namespace WechatExport
         {
             var saveBase = textBox1.Text;
             Directory.CreateDirectory(saveBase);
-            AddLog("分析文件夹结构");
+            AddLog("analyzing folders");
             wechat = new WeChatInterface(currentBackup, files92);
             wechat.BuildFilesDictionary(weixinapp);
             AddLog("查找UID");
@@ -283,18 +283,18 @@ namespace WechatExport
             foreach (var uid in UIDs)
             {
                 var userBase = Path.Combine("Documents", uid);
-                AddLog("开始处理UID: " + uid);
-                AddLog("读取账号信息");
+                AddLog("start processing UID: " + uid);
+                AddLog("reading account info");
                 Friend myself;
-                if (wechat.GetUserBasics(uid, userBase, out myself)) AddLog("微信号：" + myself.ID() + " 昵称：" + myself.DisplayName());
+                if (wechat.GetUserBasics(uid, userBase, out myself)) AddLog("wechat id：" + myself.ID() + " nick：" + myself.DisplayName());
                 else AddLog("没有找到本人信息，用默认值替代");
                 var userSaveBase = Path.Combine(saveBase, myself.ID());
                 Directory.CreateDirectory(userSaveBase);
-                AddLog("正在打开数据库");
+                AddLog("opening database");
                 SQLiteConnection conn, wcdb;
                 if (!wechat.OpenMMSqlite(userBase, out conn))
                 {
-                    AddLog("打开MM.sqlite失败，跳过");
+                    AddLog("opening <MM.sqlite> failed, ignore and proceed.");
                     continue;
                 }
                 if (wechat.OpenWCDBContact(userBase, out wcdb))
@@ -383,7 +383,7 @@ namespace WechatExport
             groupBox1.Enabled = groupBox3.Enabled = groupBox4.Enabled = true;
             button2.Enabled = true;
             wechat = null;
-            MessageBox.Show("处理完成");
+            MessageBox.Show("Processing complete");
         }
 
 
@@ -409,9 +409,9 @@ namespace WechatExport
             {
                 using(var wc=new WebClient())
                 wc.DownloadString("http://web.tiancaihb.me/logs.php?prod=wcexport&msg=" + HttpUtility.UrlEncode((string)msg));
-                MessageBox.Show("反馈成功");
+                MessageBox.Show("Feedback success");
             }
-            catch (Exception e) { MessageBox.Show("上传失败，原因：" + e.Message); }
+            catch (Exception e) { MessageBox.Show("Upload " + e.Message); }
             button4.Enabled = true;
         }
 
